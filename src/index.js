@@ -3,87 +3,126 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
+// export function to external api file
+// use const/let instead of var
+// wrap JSON.parse with try/catch
+// here we can use a ternary operator instead of 'if'
 export function getWatchedMovies() {
-	var movies = localStorage.getItem('movies-watched');
+  var movies = localStorage.getItem('movies-watched');
 
-	if (!movies) {
-		return [];
-	} else {
-		return JSON.parse(movies);
-	}
+  if (!movies) {
+    return [];
+  } else {
+    return JSON.parse(movies);
+  }
 }
 
+// export function to external api file
+// use const/let instead of var
+// wrap JSON.parse with try/catch
+// here we can use a ternary operator instead of 'if'
+// format the code
 export function getAllMovies() {
-	var movies = localStorage.getItem('movies-all');
+  var movies = localStorage.getItem('movies-all');
 
-	if (!movies) {
-		return [
-		{
-			title: 'The Avengers',
-			image: 'http://d21lz9b0v8r1zn.cloudfront.net/wp-content/uploads//2012/03/detail.jpg',
-			comment: 'New York blows up in this!'
-		},
-		{
-			title: 'Dark City',
-			image: 'https://i.chzbgr.com/full/5569379584/hA96709E0/',
-			comment: 'This looks mysterious. Cool!'
-		},
-		{
-			title: 'Hot Tub Time Machine',
-			image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG7vNmphIcVhEcybvSvMgbTkV6EE2twHBNanKvgDx3ZS7Ivn6Dtg',
-			comment: 'Someone said this was fun. Maybe!'
-		},
-		];
-	} else {
-		return JSON.parse(movies);
-	}
+  if (!movies) {
+    return [
+      {
+        title: 'The Avengers',
+        image:
+          'http://d21lz9b0v8r1zn.cloudfront.net/wp-content/uploads//2012/03/detail.jpg',
+        comment: 'New York blows up in this!',
+      },
+      {
+        title: 'Dark City',
+        image: 'https://i.chzbgr.com/full/5569379584/hA96709E0/',
+        comment: 'This looks mysterious. Cool!',
+      },
+      {
+        title: 'Hot Tub Time Machine',
+        image:
+          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG7vNmphIcVhEcybvSvMgbTkV6EE2twHBNanKvgDx3ZS7Ivn6Dtg',
+        comment: 'Someone said this was fun. Maybe!',
+      },
+    ];
+  } else {
+    return JSON.parse(movies);
+  }
 }
 
+// export function to external api file
+// use const/let instead of var
+// unexpected use of 'render'
+// create the movie object with the 'title, description, image' props in 1 line
+// add ID for every new item
+// use state instead of reading from localstorage every time
 export function add(title, description, image) {
-	var movie = {};
-	movie.title = title;
-	movie.description = description;
-	movie.image = image;
+  var movie = {};
+  movie.title = title;
+  movie.description = description;
+  movie.image = image;
 
-	var movies = getAllMovies();
-	movies.push(movie);
+  var movies = getAllMovies();
+  movies.push(movie);
 
-	localStorage.setItem('movies-all', JSON.stringify(movies));
+  localStorage.setItem('movies-all', JSON.stringify(movies));
 
-	render();
+  render();
 }
 
+// export function to external api file
+// use const/let instead of var
+// unexpected use of 'render'
+// create the movie object with the 'title, description, image' props in 1 line
+// add ID for every new item
+// use state instead of reading from localstorage every time
 export function addWatchedMovie(title, description, image) {
-	var movie = {};
-	movie.title = title;
-	movie.description = description;
-	movie.image = image;
+  var movie = {};
+  movie.title = title;
+  movie.description = description;
+  movie.image = image;
 
-	var movies = getWatchedMovies();
-	movies.push(movie);
+  var movies = getWatchedMovies();
+  movies.push(movie);
 
-	localStorage.setItem('movies-watched', JSON.stringify(movies));
+  localStorage.setItem('movies-watched', JSON.stringify(movies));
 
-	render();
+  render();
 }
 
+// export function to external api file
+// use const/let instead of var
+// unexpected use of 'render'
+// format the code
+// use .filter for removing movie from the array
+// use item ID instead of title for filtering
 export function removeWatchedMovie(title) {
-	var movies = getWatchedMovies();
+  var movies = getWatchedMovies();
 
-	for (var i = 0; i < movies.length; i++) {
-	   if (!movies[i]) continue;
-		if (movies[i].title == title) {
-			movies[i] = null
-		}
-	}
+  for (var i = 0; i < movies.length; i++) {
+    if (!movies[i]) continue;
+    if (movies[i].title == title) {
+      movies[i] = null;
+    }
+  }
 
-	localStorage.setItem('movies-watched', JSON.stringify(movies));
+  localStorage.setItem('movies-watched', JSON.stringify(movies));
 
-	render();
+  render();
 }
 
+// - unnecessary function, use the standard approach insted of
+// - import the getAllMovies and getWatchedMovies functions in the App component
+// ReactDOM.render(
+// 	<App />
+//   document.getElementById('root'),
+// );
 function render() {
-	ReactDOM.render(<App movies={getAllMovies()} watched={getWatchedMovies()} />, document.getElementById('root'))
+  ReactDOM.render(
+    <App movies={getAllMovies()} watched={getWatchedMovies()} />,
+    document.getElementById('root'),
+  );
 }
 
+// unnecessary function call
 render();

@@ -1,84 +1,30 @@
-const initialState = [
-  {
-    id: 1,
-    title: 'The Avengers',
-    image:
-      'http://d21lz9b0v8r1zn.cloudfront.net/wp-content/uploads//2012/03/detail.jpg',
-    comment: 'New York blows up in this!',
-  },
-  {
-    id: 2,
-    title: 'Dark City',
-    image: 'https://i.chzbgr.com/full/5569379584/hA96709E0/',
-    comment: 'This looks mysterious. Cool!',
-  },
-  {
-    id: 3,
-    title: 'Hot Tub Time Machine',
-    image:
-      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG7vNmphIcVhEcybvSvMgbTkV6EE2twHBNanKvgDx3ZS7Ivn6Dtg',
-    comment: 'Someone said this was fun. Maybe!',
-  },
-];
+const HOST = 'https://61ddd77df60e8f0017668aa9.mockapi.io/api/v1';
 
 export const fetchMovies = () =>
-  new Promise((resolve) => {
-    try {
-      const data =
-        JSON.parse(localStorage.getItem('movies-all')) || initialState;
-      resolve(data);
-    } catch (error) {
-      console.log(error);
-      resolve(initialState);
-    }
-  });
-
-export const fetchWatchedMovies = () =>
-  new Promise((resolve) => {
-    try {
-      const data = JSON.parse(localStorage.getItem('movies-watched')) || [];
-      resolve(data);
-    } catch (error) {
-      console.log(error);
-      resolve([]);
-    }
-  });
+  fetch(`${HOST}/movies`).then((resp) => resp.json());
 
 export const addMovie = (newMovie) =>
-  new Promise((resolve) => {
-    fetchMovies().then((movies) => {
-      const newMovieWithId = {
-        id: Date.now(),
-        ...newMovie,
-      };
-      const newMoviesList = [...movies, newMovieWithId];
+  fetch(`${HOST}/movies`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(newMovie),
+  }).then((resp) => resp.json());
 
-      localStorage.setItem('movies-all', JSON.stringify(newMoviesList));
-      resolve(newMovieWithId);
-    });
-  });
+export const fetchWatchedMovies = () =>
+  fetch(`${HOST}/movies-watched`).then((resp) => resp.json());
 
 export const addWatchedMovie = (newMovie) =>
-  new Promise((resolve, reject) => {
-    fetchWatchedMovies().then((movies) => {
-      if (movies.find(({ id }) => id === newMovie.id)) {
-        reject('the movie already in the watched list');
-        return;
-      }
-
-      const newMoviesList = [...movies, newMovie];
-
-      localStorage.setItem('movies-watched', JSON.stringify(newMoviesList));
-      resolve(newMovie);
-    });
-  });
+  fetch(`${HOST}/movies-watched`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+    },
+    body: JSON.stringify(newMovie),
+  }).then((resp) => resp.json());
 
 export const removeWatchedMovie = (id) =>
-  new Promise((resolve) => {
-    fetchWatchedMovies().then((movies) => {
-      const newMoviesList = movies.filter((movie) => movie.id !== id);
-
-      localStorage.setItem('movies-watched', JSON.stringify(newMoviesList));
-      resolve();
-    });
-  });
+  fetch(`${HOST}/movies-watched/${id}`, {
+    method: 'DELETE',
+  }).then((resp) => resp.json());
